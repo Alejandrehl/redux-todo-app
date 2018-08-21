@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta chartset="utf-8">
+    <title>To do Redux 1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.js"></script>
+  </head>
+  <body>
+    <div>
+      <h2>To Do App</h2>
+      <br>
+
+      <label>Ingresar tarea</label>
+      <input id="input-text" onkeypress="addWork(event)"/>
+
+      <ul id="list">
+
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+      //REDUX GAME
+
+      //1. STATE
+      var state = {
+        list: []
+      }
+
+      //2. STORE
+      var store = Redux.createStore(reducer, state)
+
+      //3. REDUCER
+      function reducer(state, action){
+        var newState = Object.assign({}, state)
+        if(action.type === "add"){
+          newState.list.push({
+            id: action.id,
+            li: "<li>"+ action.homework +"</li>",
+          })
+          return newState
+        }
+        return state
+      }
+
+      //4. ACTION
+      var actionAdd = function(homework, id){
+        return {
+          type: "add",
+          homework,
+          id
+        }
+      }
+      var id = 1
+      var addWork = function(event){
+        if(event.keyCode === 13){
+          var homework = event.target.value
+          id = id + 1
+          store.dispatch(actionAdd(homework, id))
+          event.target.value = ""
+        }
+      }
+
+      //5. SUBSCRIBE
+      var showHomeworks = function(){
+        var list = document.getElementById("list")
+        var elements = store.getState().list
+        var showElements = elements.map(function(element){
+          return element.li
+        })
+        list.innerHTML = showElements
+      }
+      store.subscribe(showHomeworks)
+
+    </script>
+
+  </body>
+</html>
