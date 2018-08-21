@@ -35,7 +35,12 @@
         if(action.type === "add"){
           newState.list.push({
             id: action.id,
-            li: "<li>"+ action.homework +"</li>",
+            li: "<li>"+ action.homework + "<button id='"+ action.id +"'onclick='deleteWork(id)'>Eliminar</button>" +"</li>",
+          })
+          return newState
+        }else if (action.type === "del"){
+          newState.list = state.list.filter( function(element) {
+            return parseInt(element.id) !== parseInt(action.id)
           })
           return newState
         }
@@ -50,7 +55,15 @@
           id
         }
       }
-      var id = 1
+
+      var actionDelete = function(id){
+        return {
+          type: "del",
+          id
+        }
+      }
+
+      var id = 0
       var addWork = function(event){
         if(event.keyCode === 13){
           var homework = event.target.value
@@ -58,6 +71,10 @@
           store.dispatch(actionAdd(homework, id))
           event.target.value = ""
         }
+      }
+
+      var deleteWork = function(_id){
+        store.dispatch(actionDelete(_id))
       }
 
       //5. SUBSCRIBE
