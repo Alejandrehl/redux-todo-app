@@ -33,10 +33,14 @@
       function reducer(state, action){
         var newState = Object.assign({}, state)
         if(action.type === "add"){
-          newState.list.push({
+          // newState.list.push({
+          //   id: action.id,
+          //   li: "<li>"+ action.homework + "<button id='"+ action.id +"'onclick='deleteWork(id)'>Eliminar</button>" +"</li>",
+          // })
+          newState.list = state.list.concat([{
             id: action.id,
             li: "<li>"+ action.homework + "<button id='"+ action.id +"'onclick='deleteWork(id)'>Eliminar</button>" +"</li>",
-          })
+          }])
           return newState
         }else if (action.type === "del"){
           newState.list = state.list.filter( function(element) {
